@@ -31,6 +31,10 @@ class ProductProperties
     #[ORM\OneToMany(mappedBy: 'productproperties', targetEntity: File::class)]
     private Collection $files;
 
+    #[ORM\ManyToOne(inversedBy: 'productProperties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Warehouse $warehouse = null;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -115,6 +119,18 @@ class ProductProperties
                 $file->setProductproperties(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWarehouse(): ?Warehouse
+    {
+        return $this->warehouse;
+    }
+
+    public function setWarehouse(?Warehouse $warehouse): self
+    {
+        $this->warehouse = $warehouse;
 
         return $this;
     }
