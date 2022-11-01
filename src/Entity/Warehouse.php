@@ -24,9 +24,13 @@ class Warehouse
     #[ORM\OneToMany(mappedBy: 'warehouse', targetEntity: ProductProperties::class)]
     private Collection $productProperties;
 
+    #[ORM\OneToMany(mappedBy: 'warehouse', targetEntity: ProductState::class)]
+    private Collection $productStates;
+
     public function __construct()
     {
         $this->productProperties = new ArrayCollection();
+        $this->productStates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -82,6 +86,36 @@ class Warehouse
             // set the owning side to null (unless already changed)
             if ($productProperty->getWarehouse() === $this) {
                 $productProperty->setWarehouse(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductState>
+     */
+    public function getProductStates(): Collection
+    {
+        return $this->productStates;
+    }
+
+    public function addProductState(ProductState $productState): self
+    {
+        if (!$this->productStates->contains($productState)) {
+            $this->productStates->add($productState);
+            $productState->setWarehouse($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductState(ProductState $productState): self
+    {
+        if ($this->productStates->removeElement($productState)) {
+            // set the owning side to null (unless already changed)
+            if ($productState->getWarehouse() === $this) {
+                $productState->setWarehouse(null);
             }
         }
 

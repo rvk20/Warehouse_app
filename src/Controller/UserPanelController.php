@@ -44,4 +44,12 @@ class UserPanelController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/panel/{id}', name: 'app_user_panel')]
+    public function warehouse(int $id, Request $request): Response
+    {
+        return $this->render('user_panel/warehouse.html.twig', [
+            'controller_name' => 'abc'
+        ]);
+    }
 }
