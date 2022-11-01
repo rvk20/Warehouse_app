@@ -18,8 +18,22 @@ class WarehouseService
 
     public function showWarehouses(int $userId, string $role)
     {
+        if("ROLE_ADMIN" === $role)
+            return $this->warehouseRepository->findAll();
+
         return $this->warehouseRepository->findBy(
-            ['user_id' => $userId],
+            ['user' => $userId],
         );
+    }
+
+    public function checkAccess(int $userId, int $warehouseId, string $role)
+    {
+        if("ROLE_ADMIN" === $role)
+            return true;
+        
+        if($this->warehouseRepository->find($warehouseId)->getUser()->getId() === $userId)
+            return true;
+        else
+            return false;
     }
 }
