@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Form\ReceiptProductForm;
 use App\Service\WarehouseService;
+use App\Service\ReceiptProductService;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,39 +14,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserPanelController extends AbstractController
 {
     private $warehouseService;
+    private $receiptProductService;
 
-    public function __construct(ManagerRegistry $doctrine, WarehouseService $warehouseService)
+    public function __construct(ManagerRegistry $doctrine, WarehouseService $warehouseService, ReceiptProductService $receiptProductService)
     {
         $this->warehouseService = $warehouseService;
+        $this->receiptProductService = $receiptProductService;
     }
 
     #[Route('/panel', name: 'app_user_panel')]
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        $text = "abc";
-        $form = $this->createForm(ReceiptProductForm::class);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted()) {
-            $data = $form->getData();
-            $text = $data['product']->getId();
-            $files = $form['file']->getData();
- 
-            if ($files) 
-            {
-                foreach ($files as $file) 
-                {
-                    $file->move(
-                        $this->getParameter('file_directory'),
-                        $file->getClientOriginalName()
-                    );
-                }
-            }
-        }
-
         return $this->render('user_panel/index.html.twig', [
-            'warehouses' => $this->warehouseService->showWarehouses($this->getUser()->getId(), $this->getUser()->getRoles()[0]),
-            'form' => $form->createView()
+            'warehouses' => $this->warehouseService->showWarehouses($this->getUser()->getId(), $this->getUser()->getRoles()[0])
         ]);
     }
 
@@ -55,8 +36,11 @@ class UserPanelController extends AbstractController
         if(!$this->warehouseService->checkAccess($this->getUser()->getId(), $id, $this->getUser()->getRoles()[0]))
             return $this->redirectToRoute('app_user_panel');
 
+        $form = $this->createForm(ReceiptProductForm::class);
+        $this->receiptProductService->receiptProduct($form, $request, $this->getParameter('file_directory'), $this->warehouseService->showWarehouse($id));
+
         return $this->render('user_panel/warehouse.html.twig', [
-            'controller_name' => 'abc'
+            'form' => $form->createView()
         ]);
     }
 }

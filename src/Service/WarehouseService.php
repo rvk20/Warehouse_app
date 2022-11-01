@@ -26,6 +26,11 @@ class WarehouseService
         );
     }
 
+    public function showWarehouse(int $id)
+    {
+        return $this->warehouseRepository->find($id);
+    }
+
     public function checkAccess(int $userId, int $warehouseId, string $role)
     {
         if("ROLE_ADMIN" === $role)

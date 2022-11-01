@@ -9,15 +9,16 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-   
-    This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ '/home/waldek/Pulpit/sfprojects/Warehouse_app/src/Controller/UserPanelController.php'|file_link(0) }}">src/Controller/UserPanelController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/waldek/Pulpit/sfprojects/Warehouse_app/templates/user_panel/index.html.twig'|file_link(0) }}">templates/user_panel/index.html.twig</a></code></li>
+        {{form(form)}}
     </ul>
 </div>
 
-
+<script>
+const selectElement = document.querySelector('select[name="receipt_product_form[product]"]');
+selectElement.addEventListener('change', (event) => {
+  document.getElementById("receipt_product_form_unit").selectedIndex = event.target.selectedIndex;
+});
+</script>
 
 {% endblock %}

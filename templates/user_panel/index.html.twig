@@ -11,9 +11,9 @@
 <div class="example-wrapper">
     <h1>Hello ! ✅</h1>
     {% for element in warehouses %}
-    {{element.name}}
+    <a href="panel/{{element.id}}">{{element.name}}</a> 
     {% endfor %} 
-    {{form(form)}}
+    
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code><a href="{{ '/home/waldek/Pulpit/sfprojects/Warehouse_app/src/Controller/UserPanelController.php'|file_link(0) }}">src/Controller/UserPanelController.php</a></code></li>
@@ -21,11 +21,4 @@
     </ul>
 </div>
 
-
-<script>
-const selectElement = document.querySelector('select[name="receipt_product_form[product]"]');
-selectElement.addEventListener('change', (event) => {
-  document.getElementById("receipt_product_form_unit").selectedIndex = event.target.selectedIndex;
-});
-</script>
 {% endblock %}
