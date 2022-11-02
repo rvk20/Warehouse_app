@@ -10,11 +10,16 @@
 
 <div class="example-wrapper">
     <ul>
-        {% for element in state %}
-        {{element.product.name}}  {{element.quantity}} </br>
-        {% endfor %} 
+        {{form(form)}}
+
     </ul>
 </div>
 
+<script>
+const selectElement = document.querySelector('select[name="receipt_product_form[product]"]');
+selectElement.addEventListener('change', (event) => {
+  document.getElementById("receipt_product_form_unit").selectedIndex = event.target.selectedIndex;
+});
+</script>
 
 {% endblock %}

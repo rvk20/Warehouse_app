@@ -10,8 +10,8 @@
 
 <div class="example-wrapper">
     <ul>
-        {% for element in state %}
-        {{element.product.name}}  {{element.quantity}} </br>
+        {% for element in properties %}
+        {{element.product.name}}  {{element.quantity}} <a href="history/{{element.id}}">szczegóły</a>  </br>
         {% endfor %} 
     </ul>
 </div>

@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\File as EntityFile;
 use App\Entity\Product;
+use App\Entity\ProductState;
+use App\Repository\ProductStateRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -15,44 +17,28 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 
-class ReceiptProductForm extends AbstractType
+class ReleaseProductForm extends AbstractType
 {
-    private $product;
+    private $stateRepository;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(ManagerRegistry $doctrine, ProductStateRepository $stateRepository)
     {
-        $this->product = $doctrine->getRepository(Product::class)->findAll();
+        $this->stateRepository = $stateRepository;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('product', EntityType::class, [
-                'class' => Product::class,
+                'class' => ProductState::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC')
+                        ->orderBy('u.product', 'ASC')
                         ;
                 },
-                'choice_label' => 'name', 'label' => 'nazwa'
+                'choice_label' => 'product.name', 'choice_value' => 'product.id', 'label' => 'nazwa',
             ])
             ->add('quantity', TextType::class, ['label' => 'ilość'])
-            ->add('unit', EntityType::class, [
-                'class' => Product::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC');
-                },
-                'choice_label' => 'unit', 'label' => 'jednostka', 'disabled' => 'true'
-            ])
-            ->add('vat', TextType::class, ['label' => 'vat'])
-            ->add('price', TextType::class, ['label' => 'cena'])
-            ->add('file', FileType::class, [
-                'label' => 'Files',
-                'multiple' => true,
-                'mapped' => false,
-                'required' => true
-            ])
             ->add('save', SubmitType::class, ['label' => 'przyjmij'])
         ;
     }

@@ -10,11 +10,12 @@
 
 <div class="example-wrapper">
     <ul>
-        {% for element in state %}
-        {{element.product.name}}  {{element.quantity}} </br>
-        {% endfor %} 
+        {{product.product.name}}  {{product.quantity}}
+        {% for element in files %}
+        <a href="/{{element.filename}}">{{element.filename}}</a> </br>
+        {% endfor %}
+        </br>
     </ul>
 </div>
-
 
 {% endblock %}

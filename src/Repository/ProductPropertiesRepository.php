@@ -39,6 +39,19 @@ class ProductPropertiesRepository extends ServiceEntityRepository
         }
     }
 
+    public function getLastPropertiesId()
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT max(id) FROM product_properties 
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery();
+
+        return intval($resultSet->fetchOne()) + 1;
+    }
+
 //    /**
 //     * @return ProductProperties[] Returns an array of ProductProperties objects
 //     */
