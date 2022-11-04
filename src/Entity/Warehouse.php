@@ -18,9 +18,6 @@ class Warehouse
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'warehouses')]
-    private ?User $user = null;
-
     #[ORM\OneToMany(mappedBy: 'warehouse', targetEntity: ProductProperties::class)]
     private Collection $productProperties;
 
@@ -46,18 +43,6 @@ class Warehouse
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
 
         return $this;
     }

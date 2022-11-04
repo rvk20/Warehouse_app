@@ -2,7 +2,8 @@
 
 namespace App\Service;
 
-use App\Entity\Product;
+use App\Repository\MembershipWarehouseRepository;
+use App\Repository\UserRepository;
 use App\Repository\WarehouseRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -10,10 +11,14 @@ class WarehouseService
 {
     private $entityManager;
     private $warehouseRepository;
+    private $userRepository;
+    private $memberRepository;
     
-    public function __construct(ManagerRegistry $doctrine, WarehouseRepository $warehouseRepository){
+    public function __construct(ManagerRegistry $doctrine, WarehouseRepository $warehouseRepository, UserRepository $userRepository, MembershipWarehouseRepository $memberRepository){
         $this->entityManager = $doctrine->getManager();
         $this->warehouseRepository = $warehouseRepository;
+        $this->userRepository = $userRepository;
+        $this->memberRepository = $memberRepository;
     }
 
     public function showWarehouses(int $userId, string $role)
@@ -21,9 +26,16 @@ class WarehouseService
         if("ROLE_ADMIN" === $role)
             return $this->warehouseRepository->findAll();
 
-        return $this->warehouseRepository->findBy(
-            ['user' => $userId],
-        );
+        $warehousesReturn = array();
+        
+        $membership =$this->memberRepository->findBy([
+            'user' => $userId,
+        ]);
+
+        foreach($membership as $element)
+            array_push($warehousesReturn, $element->getWarehouse());
+
+        return $warehousesReturn;
     }
 
     public function showWarehouse(int $id)
@@ -35,8 +47,13 @@ class WarehouseService
     {
         if("ROLE_ADMIN" === $role)
             return true;
+
+        $membership = $this->memberRepository->findOneBy([
+            'warehouse' => $warehouseId,
+            'user' => $userId
+        ]);
         
-        if($this->warehouseRepository->find($warehouseId)->getUser()->getId() === $userId)
+        if($membership)
             return true;
         else
             return false;

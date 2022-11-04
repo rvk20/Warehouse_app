@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\File as EntityFile;
 use App\Entity\Product;
 use App\Entity\ProductState;
+use App\Entity\User;
 use App\Entity\Warehouse;
 use App\Repository\ProductStateRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\File;
 
-class UserForm extends AbstractType
+class AddProductForm extends AbstractType
 {
     private $stateRepository;
 
@@ -31,17 +32,7 @@ class UserForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, ['label' => 'Nazwa użytkownika'])
-            ->add('password', PasswordType::class, ['label' => 'Hasło'])
-            ->add('warehouse', EntityType::class, [
-                'class' => Warehouse::class, 'multiple' => true,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.name', 'ASC')
-                        ;
-                },
-                'choice_label' => 'name',  'label' => 'nazwa'
-            ])
+            ->add('name', TextType::class, ['label' => 'Nazwa'])
             ->add('save', SubmitType::class, ['label' => 'przyjmij'])
         ;
     }

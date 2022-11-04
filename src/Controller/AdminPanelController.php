@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Form\UserForm;
+use App\Form\WarehouseForm;
 use App\Service\AdminService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,6 +27,18 @@ class AdminPanelController extends AbstractController
         echo $this->adminService->addUser($form, $request);
 
         return $this->render('admin_panel/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/admin/add/warehouse', name: 'app_add_warehouse')]
+    public function warehouseAdd(Request $request): Response
+    {
+        $form = $this->createForm(WarehouseForm::class);
+
+        echo $this->adminService->addWarehouse($form, $request);
+
+        return $this->render('admin_panel/warehouseadd.html.twig', [
             'form' => $form->createView(),
         ]);
     }

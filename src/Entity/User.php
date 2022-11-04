@@ -29,14 +29,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Warehouse::class)]
-    private Collection $warehouses;
-
-    public function __construct()
-    {
-        $this->warehouses = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -119,35 +111,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Warehouse>
-     */
-    public function getWarehouses(): Collection
-    {
-        return $this->warehouses;
-    }
-
-    public function addWarehouse(Warehouse $warehouse): self
-    {
-        if (!$this->warehouses->contains($warehouse)) {
-            $this->warehouses->add($warehouse);
-            $warehouse->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeWarehouse(Warehouse $warehouse): self
-    {
-        if ($this->warehouses->removeElement($warehouse)) {
-            // set the owning side to null (unless already changed)
-            if ($warehouse->getUser() === $this) {
-                $warehouse->setUser(null);
-            }
-        }
-
-        return $this;
     }
 }
