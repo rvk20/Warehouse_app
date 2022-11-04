@@ -5,17 +5,13 @@ namespace App\Service;
 use App\Repository\MembershipWarehouseRepository;
 use App\Repository\UserRepository;
 use App\Repository\WarehouseRepository;
-use Doctrine\Persistence\ManagerRegistry;
 
 class WarehouseService
 {
-    private $entityManager;
     private $warehouseRepository;
-    private $userRepository;
     private $memberRepository;
     
-    public function __construct(ManagerRegistry $doctrine, WarehouseRepository $warehouseRepository, UserRepository $userRepository, MembershipWarehouseRepository $memberRepository){
-        $this->entityManager = $doctrine->getManager();
+    public function __construct(WarehouseRepository $warehouseRepository, UserRepository $userRepository, MembershipWarehouseRepository $memberRepository){
         $this->warehouseRepository = $warehouseRepository;
         $this->userRepository = $userRepository;
         $this->memberRepository = $memberRepository;

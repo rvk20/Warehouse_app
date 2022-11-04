@@ -10,21 +10,18 @@ use App\Repository\MembershipWarehouseRepository;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Repository\WarehouseRepository;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AdminService
 {
-    private $entityManager;
     private $warehouseRepository;
     private $userRepository;
     private $memberRepository;
     private $productRepository;
     private $passEncoder;
     
-    public function __construct(ManagerRegistry $doctrine, ProductRepository $productRepository, WarehouseRepository $warehouseRepository, UserRepository $userRepository, MembershipWarehouseRepository $memberRepository, UserPasswordHasherInterface $passEncoder){
-        $this->entityManager = $doctrine->getManager();
+    public function __construct(ProductRepository $productRepository, WarehouseRepository $warehouseRepository, UserRepository $userRepository, MembershipWarehouseRepository $memberRepository, UserPasswordHasherInterface $passEncoder){
         $this->warehouseRepository = $warehouseRepository;
         $this->userRepository = $userRepository;
         $this->memberRepository = $memberRepository;
