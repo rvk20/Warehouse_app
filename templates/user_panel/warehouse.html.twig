@@ -1,19 +1,68 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserPanelController!{% endblock %}
+{% block title %}Artykuły{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <ul>
-        {% for element in state %}
-        {{element.product.name}}  {{element.quantity}} </br>
-        {% endfor %} 
-    </ul>
+<nav class="navbar bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/panel">Magazyn</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Magazyn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/panel">Magazyn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='add'>Przyjęcie artykułu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='history'>Historia przyjęć</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='release'>Wydanie artykułu</a>
+          </li>
+          {% if is_granted('ROLE_ADMIN') %} 
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Panel administratora</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Wyloguj</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+</br>
+</br>
+</br>
+<div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col"><b>Nazwa magazynu</b></th>
+      <th scope="col">Ilość</th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for element in state %}
+    <tr>
+      <td>{{element.product.name}}</td>
+      <td style="width: 200px">{{element.quantity}} {{element.product.unit}}</td>
+    </tr>
+   {% endfor %} 
+  </tbody>
+</table>
+</div>
+<div>
 </div>
 
 

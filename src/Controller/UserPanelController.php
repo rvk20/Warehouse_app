@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Form\ReceiptProductForm;
 use App\Form\ReleaseProductForm;
-use App\Repository\ProductStateRepository;
 use App\Service\WarehouseService;
 use App\Service\ReceiptProductService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,13 +16,11 @@ class UserPanelController extends AbstractController
 {
     private $warehouseService;
     private $receiptProductService;
-    private $productState;
 
-    public function __construct(ManagerRegistry $doctrine, WarehouseService $warehouseService, ReceiptProductService $receiptProductService, ProductStateRepository $productState)
+    public function __construct(ManagerRegistry $doctrine, WarehouseService $warehouseService, ReceiptProductService $receiptProductService)
     {
         $this->warehouseService = $warehouseService;
         $this->receiptProductService = $receiptProductService;
-        $this->productState = $productState;
     }
 
     #[Route('/panel', name: 'app_user_panel')]
@@ -34,7 +31,7 @@ class UserPanelController extends AbstractController
         ]);
     }
 
-    #[Route('/panel/{id}', name: 'app_warehouse')]
+    #[Route('/panel/{id}/', name: 'app_warehouse')]
     public function warehouse(int $id): Response
     {
         if(!$this->warehouseService->checkAccess($this->getUser()->getId(), $id, $this->getUser()->getRoles()[0]))

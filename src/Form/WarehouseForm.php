@@ -34,7 +34,7 @@ class WarehouseForm extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nazwa'])
             ->add('user', EntityType::class, [
-                'class' => User::class, 'multiple' => true,
+                'class' => User::class, 'multiple' => true, 'required' => false,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.username', 'ASC')
@@ -42,7 +42,7 @@ class WarehouseForm extends AbstractType
                 },
                 'choice_label' => 'username',  'label' => 'Użytkownik'
             ])
-            ->add('save', SubmitType::class, ['label' => 'przyjmij'])
+            ->add('save', SubmitType::class, ['label' => 'dodaj'])
         ;
     }
 }

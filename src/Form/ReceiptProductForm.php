@@ -51,7 +51,7 @@ class ReceiptProductForm extends AbstractType
                 'label' => 'Files',
                 'multiple' => true,
                 'mapped' => false,
-                'required' => true
+                'required' => false
             ])
             ->add('save', SubmitType::class, ['label' => 'przyjmij'])
         ;

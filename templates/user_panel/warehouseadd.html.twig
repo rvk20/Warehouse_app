@@ -1,20 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserPanelController!{% endblock %}
+{% block title %}Przyjęcie towaru{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<nav class="navbar bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/panel">Magazyn</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Magazyn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/panel">Magazyn</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='add'>Przyjęcie artykułu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='history'>Historia przyjęć</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href='release'>Wydanie artykułu</a>
+          </li>
+          {% if is_granted('ROLE_ADMIN') %} 
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Panel administratora</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Wyloguj</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
 
-<div class="example-wrapper">
-    <ul>
-        {{form(form)}}
-
-    </ul>
+</br>
+</br>
+</br>
+<div>
+    <div class="example-wrapper" style="display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    ">
+        {{ form_start(form) }}
+        <div class="form-outline mb-4">
+        {{ form_widget(form.product, {'attr': {'class': 'form-select'}}) }}
+        </div>
+        <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example18">Ilość</label>
+        {{ form_widget(form.quantity, {'attr': {'class': 'form-control form-control-lg'}}) }}
+        </div>
+        <div class="form-outline mb-4">
+        {{ form_widget(form.unit, {'attr': {'class': 'form-select'}}) }}
+        </div>
+        <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example18">Vat</label>
+        {{ form_widget(form.vat, {'attr': {'class': 'form-control form-control-lg'}}) }} 
+        </div>
+        <div class="form-outline mb-4">
+        <label class="form-label" for="form2Example18">Cena</label>
+        {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-lg'}}) }}
+        </div>
+        <div class="form-outline mb-4">
+        {{ form_widget(form.file ) }}
+        </div>
+        <div class="form-outline mb-4">
+        {{ form_widget(form.save, {'attr': {'class': 'btn btn-success btn-lg btn-block'}}) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
 </div>
-
 <script>
 const selectElement = document.querySelector('select[name="receipt_product_form[product]"]');
 selectElement.addEventListener('change', (event) => {

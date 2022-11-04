@@ -39,7 +39,7 @@ class ReleaseProductForm extends AbstractType
                 'choice_label' => 'product.name', 'choice_value' => 'product.id', 'label' => 'nazwa',
             ])
             ->add('quantity', TextType::class, ['label' => 'ilość'])
-            ->add('save', SubmitType::class, ['label' => 'przyjmij'])
+            ->add('save', SubmitType::class, ['label' => 'wydaj'])
         ;
     }
 }

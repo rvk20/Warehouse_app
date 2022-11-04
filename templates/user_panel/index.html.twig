@@ -1,24 +1,57 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserPanelController!{% endblock %}
+{% block title %}Magazyny{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello ! ✅</h1>
-    {% for element in warehouses %}
-    <a href="panel/{{element.id}}">{{element.name}}</a> 
-    {% endfor %} 
-    
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/home/waldek/Pulpit/sfprojects/Warehouse_app/src/Controller/UserPanelController.php'|file_link(0) }}">src/Controller/UserPanelController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/home/waldek/Pulpit/sfprojects/Warehouse_app/templates/user_panel/index.html.twig'|file_link(0) }}">templates/user_panel/index.html.twig</a></code></li>
-    </ul>
+<nav class="navbar bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/panel">Magazyn</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Magazyn</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/panel">Magazyn</a>
+          </li>
+          {% if is_granted('ROLE_ADMIN') %} 
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Panel administratora</a>
+          </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Wyloguj</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+</br>
+</br>
+</br>
+<div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col"><b>Nazwa magazynu</b></th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+   {% for element in warehouses %}
+    <tr>
+      <td>{{element.name}}</td>
+      <td style="width: 150px;"><a class="btn btn-success" href="panel/{{element.id}}">Przejdź</a></td>
+    </tr>
+   {% endfor %} 
+  </tbody>
+</table>
 </div>
 
 {% endblock %}

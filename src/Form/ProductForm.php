@@ -34,7 +34,7 @@ class ProductForm extends AbstractType
         $builder
             ->add('name', TextType::class, ['label' => 'Nazwa'])
             ->add('unit', TextType::class, ['label' => 'Jednostka'])
-            ->add('save', SubmitType::class, ['label' => 'przyjmij'])
+            ->add('save', SubmitType::class, ['label' => 'dodaj'])
         ;
     }
 }

@@ -34,7 +34,7 @@ class UserForm extends AbstractType
             ->add('username', TextType::class, ['label' => 'Nazwa użytkownika'])
             ->add('password', PasswordType::class, ['label' => 'Hasło'])
             ->add('warehouse', EntityType::class, [
-                'class' => Warehouse::class, 'multiple' => true,
+                'class' => Warehouse::class, 'multiple' => true, 'required' => false,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                         ->orderBy('u.name', 'ASC')
@@ -42,7 +42,7 @@ class UserForm extends AbstractType
                 },
                 'choice_label' => 'name',  'label' => 'nazwa'
             ])
-            ->add('save', SubmitType::class, ['label' => 'przyjmij'])
+            ->add('save', SubmitType::class, ['label' => 'dodaj'])
         ;
     }
 }
