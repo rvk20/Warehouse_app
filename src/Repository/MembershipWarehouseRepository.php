@@ -39,6 +39,37 @@ class MembershipWarehouseRepository extends ServiceEntityRepository
         }
     }
 
+    public function showAssignedWarehouse(int $id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT m.warehouse_id 
+            FROM membership_warehouse m
+            WHERE m.user_id = :id 
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+
+    public function showAssignedUser(int $id)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT m.user_id 
+            FROM membership_warehouse m
+            WHERE m.warehouse_id = :id 
+            ';
+        $stmt = $conn->prepare($sql);
+        $resultSet = $stmt->executeQuery(['id' => $id]);
+
+        return $resultSet->fetchAllAssociative();
+    }
+    
+
 //    /**
 //     * @return MembershipWarehouse[] Returns an array of MembershipWarehouse objects
 //     */

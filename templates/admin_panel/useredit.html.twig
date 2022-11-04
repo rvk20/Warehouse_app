@@ -10,6 +10,15 @@
 
 <div class="example-wrapper">
 
+        {{user.username}} 
+        </br>
+        {% for element in warehouses %}  
 
+        {{element.name}} <a href="{{user.id}}/{{element.id}}">edit</a>
+        </br>
+         
+        {% endfor %} 
+
+    
 </div>
 {% endblock %}

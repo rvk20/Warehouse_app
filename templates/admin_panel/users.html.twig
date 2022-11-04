@@ -10,6 +10,9 @@
 
 <div class="example-wrapper">
 
-
+    {% for element in users %}
+        {{element.username}} <a href="user/edit/{{element.id}}">edit</a></br>
+        {% endfor %} 
+    
 </div>
 {% endblock %}

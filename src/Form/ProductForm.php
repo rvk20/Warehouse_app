@@ -20,7 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\File;
 
-class AddProductForm extends AbstractType
+class ProductForm extends AbstractType
 {
     private $stateRepository;
 
@@ -33,6 +33,7 @@ class AddProductForm extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Nazwa'])
+            ->add('unit', TextType::class, ['label' => 'Jednostka'])
             ->add('save', SubmitType::class, ['label' => 'przyjmij'])
         ;
     }
